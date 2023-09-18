@@ -1,4 +1,6 @@
-import './global.css';
+import '@/ui/styles/global.css';
+import { MainLayout } from '@/ui/layouts/main-layout';
+import { ThemeProvider } from '@/ui/contexts/theme-context';
 
 export const metadata = {
   title: 'Welcome to frontend',
@@ -12,7 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ThemeProvider>
+          <MainLayout>{children}</MainLayout>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

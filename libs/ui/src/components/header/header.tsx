@@ -1,7 +1,5 @@
 import { twMerge } from 'tailwind-merge';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+import type { HeaderProps } from './header.types';
 
 export function Header({ children, className, ...rest }: HeaderProps) {
   return (
@@ -12,9 +10,11 @@ export function Header({ children, className, ...rest }: HeaderProps) {
       )}
       {...rest}
     >
-      <h1 className="text-xl font-bold">Radiology</h1>
+      <div className="w-7xl w-full mx-auto">
+        <h1 className="text-xl font-bold">Radiology</h1>
 
-      <div className="flex gap-3 items-center">{children}</div>
+        <div className="flex gap-3 items-center">{children}</div>
+      </div>
     </header>
   );
 }

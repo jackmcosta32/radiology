@@ -15,10 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/ui": ["libs/ui/src/index.ts"],
-      "@/ui/*": ["libs/ui/src/*"],
       "@/constants": ["libs/constants/src/index.ts"],
-      "@/constants/*": ["libs/constants/src/*"]
+      "@/constants/*": ["libs/constants/src/*"],
+      "@/ui": ["libs/ui/src/index.ts"],
+      "@/ui/*": ["libs/ui/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
