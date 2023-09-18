@@ -15,8 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@radiology/ui": ["libs/ui/src/index.ts"],
-      "@radiology/ui/server": ["libs/ui/src/server.ts"]
+      "@/ui": ["libs/ui/src/index.ts"],
+      "@/ui/*": ["libs/ui/src/*"],
+      "@/constants": ["libs/constants/src/index.ts"],
+      "@/constants/*": ["libs/constants/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
