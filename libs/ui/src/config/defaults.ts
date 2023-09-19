@@ -1,5 +1,4 @@
-import { LOCALES } from '@/constants/locales';
-import { PALETTE_MODES } from '@/constants/palette-modes';
+import { LOCALES, PALETTE_MODES } from '@/constants';
 
 export const DEFAULTS = {
   LOCALE: LOCALES.PT_BR,

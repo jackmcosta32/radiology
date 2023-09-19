@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
-import type { TLocale } from '@/constants/locales';
-import type { TPaletteMode } from '@/constants/palette-modes';
+import type { TLocale, TPaletteMode } from '@/constants';
 
 export interface ThemeContextProps {
   locale: string;

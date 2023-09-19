@@ -2924,7 +2924,7 @@
     "@storybook/global" "^5.0.0"
     "@storybook/preview-api" "7.4.2"
 
-"@storybook/addon-interactions@^7.2.1":
+"@storybook/addon-interactions@^7.4.2":
   version "7.4.2"
   resolved "https://registry.yarnpkg.com/@storybook/addon-interactions/-/addon-interactions-7.4.2.tgz#44618d9d00a041058e12d19b774d3cd8ef7baaa9"
   integrity sha512-Gr3UbrPRgtBmwYctFiIxYlg4pfe07sC5gvMJmMdzHSJo0yAmcw2fSzKe4aEPX4trdAIb+diQKi3TDqIBrOfCLQ==

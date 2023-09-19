@@ -10,6 +10,13 @@ const config: StorybookConfig = {
     options: {},
   },
 
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      tsconfigPath: './libs/ui/tsconfig.storybook.json',
+    },
+  },
+
   viteFinal: async (config) =>
     mergeConfig(config, {
       plugins: [nxViteTsPaths()],

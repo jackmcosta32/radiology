@@ -2,10 +2,9 @@
 
 import React from 'react';
 import '../../styles/global.css';
-import { TLocale } from '@/constants/locales';
 import { useTranslation } from 'react-i18next';
 import { DEFAULTS } from '../../config/defaults';
-import { PALETTE_MODES, TPaletteMode } from '@/constants/palette-modes';
+import { PALETTE_MODES, type TPaletteMode, type TLocale } from '@/constants';
 import type {
   ThemeContextProps,
   ThemeProviderProps,
