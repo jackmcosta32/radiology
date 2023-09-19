@@ -2,7 +2,7 @@ import { cn } from '../../utils/class-name';
 import type { PropsWithChildren } from 'react';
 import { type VariantProps, cva } from 'class-variance-authority';
 
-const circularProgressVariants = cva('text-primary inline-block', {
+const circularProgressVariants = cva('text-primary inline-block animate-spin', {
   variants: {
     size: {
       sm: 'w-5 h-5',
