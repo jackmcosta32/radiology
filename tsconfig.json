@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowJs": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/ui/components": ["libs/ui/src/components"],
+      "@/ui/utils": ["libs/ui/src/utils"]
+    }
+  },
+  "extends": "../../tsconfig.base.json"
+}

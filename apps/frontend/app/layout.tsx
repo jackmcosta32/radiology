@@ -1,4 +1,5 @@
 import '@/ui/styles/global.css';
+import { sans, mono } from '@/ui/fonts';
 import { MainLayout } from '@/ui/layouts/main-layout';
 import { ThemeProvider } from '@/ui/contexts/theme-context';
 
@@ -13,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
         <ThemeProvider>
           <MainLayout>{children}</MainLayout>

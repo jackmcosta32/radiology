@@ -28,8 +28,8 @@ export function Anchor({
       replace={replace}
       href={href ?? '#'}
       prefetch={prefetch}
-      className={twMerge('text-prima', className)}
       legacyBehavior={legacyBehavior}
+      className={twMerge('text-primary', className)}
       {...anchorProps}
     >
       {children}

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import '../../styles/global.css';
 import { useTranslation } from 'react-i18next';
 import { DEFAULTS } from '../../config/defaults';
 import { PALETTE_MODES, type TPaletteMode, type TLocale } from '@/constants';
