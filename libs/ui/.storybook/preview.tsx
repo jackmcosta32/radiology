@@ -6,12 +6,17 @@ import { ThemeProvider } from '../src/contexts/theme-context';
 
 export const decorators = [
   (Story: React.FunctionComponent) => {
+    React.useEffect(() => {
+      const documentClasses = document.documentElement.classList;
+
+      documentClasses.add(sans.variable);
+      documentClasses.add(mono.variable);
+    }, []);
+
     return (
-      <html className={`${sans.variable} ${mono.variable}`}>
-        <ThemeProvider>
-          <Story />
-        </ThemeProvider>
-      </html>
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
     );
   },
 ];
