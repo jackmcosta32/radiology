@@ -1,6 +1,6 @@
 import React from 'react';
 import '../src/config/i18n';
-import '../src/styles/global.css';
+import '../src/styles/global.scss';
 import { sans, mono } from '../src/fonts';
 import { ThemeProvider } from '../src/contexts/theme-context';
 

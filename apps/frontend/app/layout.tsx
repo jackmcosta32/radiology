@@ -1,4 +1,4 @@
-import '@/ui/styles/global.css';
+import '@/ui/styles/global.scss';
 import { sans, mono } from '@/ui/fonts';
 import { MainLayout } from '@/ui/layouts/main-layout';
 import { ThemeProvider } from '@/ui/contexts/theme-context';
