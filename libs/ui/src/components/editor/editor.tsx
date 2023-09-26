@@ -7,6 +7,10 @@ import type { EditorProps } from './editor.types';
 import 'highlight.js/styles/tokyo-night-dark.css';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { EditorBubbleMenu } from './components/editor-bubble-menu';
+import {
+  SLASH_MENU_ID,
+  SLASH_MENU_MAPPED_KEYS,
+} from './components/editor-slash-menu';
 
 export function Editor({ className }: EditorProps) {
   const editor = useEditor({
@@ -15,6 +19,12 @@ export function Editor({ className }: EditorProps) {
     editorProps: {
       attributes: {
         class: 'outline-none',
+      },
+      handleKeyDown(view, event) {
+        const key = event.key;
+        const slashCommand = document.getElementById(SLASH_MENU_ID);
+
+        return Boolean(slashCommand && SLASH_MENU_MAPPED_KEYS.includes(key));
       },
     },
   });

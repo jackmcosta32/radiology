@@ -1,7 +1,12 @@
+'use client';
+
 import React from 'react';
-import { isEmpty } from '@/ui/utils/arrays/is-empty';
+import { isEmpty } from '../../../../utils/arrays/is-empty';
 import type { EditorSlashMenuProps } from './editor-slash-menu.types';
 import { isClientSide } from '../../../../utils/server-side/is-client-side';
+
+export const SLASH_MENU_ID = 'slash-command';
+export const SLASH_MENU_MAPPED_KEYS = ['ArrowUp', 'ArrowDown', 'Enter'];
 
 const handleItemSelection = (
   index: number,
@@ -71,10 +76,8 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
 
   const handleOnKeyDown = (event: KeyboardEvent) => {
     const key = event.key;
-    console.log({ key });
-    const mappedKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
 
-    if (!mappedKeys.includes(key)) return;
+    if (!SLASH_MENU_MAPPED_KEYS.includes(key)) return;
 
     event.preventDefault();
 
@@ -87,7 +90,7 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
         setSelectedIndex((selectedIndex + 1) % items.length);
         break;
 
-      case 'Enter':
+      default:
         handleItemSelection(selectedIndex, items, command);
         break;
     }
@@ -103,11 +106,7 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
         document.removeEventListener('keydown', handleOnKeyDown);
       }
     };
-  }, [items, selectedIndex, handleOnKeyDown]);
-
-  React.useEffect(() => {
-    setSelectedIndex(0);
-  }, []);
+  }, [handleOnKeyDown]);
 
   React.useEffect(() => {
     const wrapper = wrapperRef?.current;
@@ -121,7 +120,7 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
   return (
     <div
       ref={wrapperRef}
-      id="slash-command"
+      id={SLASH_MENU_ID}
       className="z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
     >
       {renderMenuItems(selectedIndex, items, command)}
