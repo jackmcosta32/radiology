@@ -1,3 +1,4 @@
+import { EditorLink } from './editor-link';
 import { EditorTaskList } from './editor-task-list';
 import { EditorTaskItem } from './editor-task-item';
 import { EditorUnderline } from './editor-underline';
@@ -9,6 +10,7 @@ import { EditorSyntaxHighlight } from './editor-syntax-highlight';
 
 export const defaultExtensions = [
   EditorStarterKit,
+  EditorLink,
   EditorTaskList,
   EditorTaskItem,
   EditorUnderline,
