@@ -3,7 +3,7 @@
 import React from 'react';
 import { Button } from '../../../button';
 import { Menubar } from '../../../menubar';
-import { BubbleMenu } from '@tiptap/react';
+import { BubbleMenu, isNodeSelection } from '@tiptap/react';
 import type {
   TAction,
   EditorBubbleMenuProps,
@@ -30,7 +30,11 @@ const renderToggleAction = ({ active, key, onClick, label }: TAction) => {
   );
 };
 
-export function EditorBubbleMenu({ editor, ...rest }: EditorBubbleMenuProps) {
+export function EditorBubbleMenu({
+  editor,
+  shouldShow,
+  ...rest
+}: EditorBubbleMenuProps) {
   const focus = editor?.chain().focus();
 
   const menuActions: TAction[] = [
@@ -82,10 +86,26 @@ export function EditorBubbleMenu({ editor, ...rest }: EditorBubbleMenuProps) {
     });
   }, [editor, menuActions]);
 
+  const handleShouldShow: EditorBubbleMenuProps['shouldShow'] = (params) => {
+    let customVerification = true;
+    const { selection } = params.state;
+    const emptySelection = selection.empty;
+    const nodeSelection = isNodeSelection(selection);
+    const imageSelection = params.editor.isActive('image');
+
+    if (typeof shouldShow === 'function') {
+      customVerification = shouldShow(params);
+    }
+
+    return (
+      !(emptySelection || nodeSelection || imageSelection) && customVerification
+    );
+  };
+
   if (!editor) return null;
 
   return (
-    <BubbleMenu editor={editor} {...rest}>
+    <BubbleMenu editor={editor} shouldShow={handleShouldShow} {...rest}>
       <Menubar className="relative py-6">{renderedActions}</Menubar>
     </BubbleMenu>
   );

@@ -1,4 +1,4 @@
-import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 import { Extension } from '@tiptap/core';
 import { NodeSelection, Plugin } from '@tiptap/pm/state';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -179,7 +179,7 @@ function DragHandle(options: DragHandleOptions) {
       handleDOMEvents: {
         keydown: hideDragHandle,
         mousewheel: hideDragHandle,
-        mousemove: debounce(handleOnMouseMove, 200),
+        mousemove: throttle(handleOnMouseMove, 300),
         // dragging class is used for CSS
         dragstart: (view) => {
           view.dom.classList.add('dragging');
