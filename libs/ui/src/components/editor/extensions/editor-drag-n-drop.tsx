@@ -14,9 +14,9 @@ function absoluteRect(node: Element) {
   const data = node.getBoundingClientRect();
 
   return {
-    top: data.top,
-    left: data.left,
     width: data.width,
+    top: data.top + window.scrollY,
+    left: data.left + window.scrollX,
   };
 }
 
@@ -163,6 +163,7 @@ function DragHandle(options: DragHandleOptions) {
 
           rect.top += (lineHeight - 24) / 2;
           rect.top += paddingTop;
+
           // Li markers
           if (node.matches('ul:not([data-type=taskList]) li, ol li')) {
             rect.left -= options.dragHandleWidth;
@@ -187,6 +188,7 @@ function DragHandle(options: DragHandleOptions) {
         },
         drop: (view) => {
           view.dom.classList.remove('dragging');
+          hideDragHandle();
         },
         dragend: (view) => {
           view.dom.classList.remove('dragging');
