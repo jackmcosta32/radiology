@@ -24,7 +24,7 @@ const renderBlock = ({
         variant="ghost"
         onClick={onClick}
         autoFocus={autoFocus}
-        className="w-full flex flex-row justify-start gap-1 px-4 py-6"
+        className="w-full flex flex-row justify-start gap-1 px-4 py-6 outline-none focus:bg-accent focus:text-accent-foreground data-[active=true]:bg-accent data-[active=true]:text-accent-foreground"
       >
         {icon && <div>{icon}</div>}
 

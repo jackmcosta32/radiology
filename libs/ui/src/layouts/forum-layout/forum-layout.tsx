@@ -33,12 +33,11 @@ export function ForumLayout({
       <Header className="gap-2">
         {hasSections && (
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger>
+            <SheetTrigger asChild>
               <Button
-                asChild
                 size="icon"
                 variant="ghost"
-                className="flex lg:none w-4 h-4"
+                className="flex w-4 h-4 lg:hidden"
               >
                 <HamburgerMenuIcon />
               </Button>
@@ -55,15 +54,15 @@ export function ForumLayout({
         <div className="ml-auto flex items-center"></div>
       </Header>
 
-      <main className="flex flex-1">
-        <section className="flex flex-row w-full">
-          {hasSections && (
-            <aside className="w-72 hidden lg:flex border-r border-border gay-y-4 px-2 py-6">
-              {renderedSections}
-            </aside>
-          )}
+      <main className="flex flex-1 flex-row">
+        {hasSections && (
+          <aside className="w-72 hidden lg:flex border-r border-border gap-y-4 px-4 py-3">
+            {renderedSections}
+          </aside>
+        )}
 
-          <article className="flex gap-6 w-full p-6 font-normal text-sm">
+        <section className="flex flex-col w-full">
+          <article className="flex gap-6 w-full font-normal text-sm min-h-screen">
             {children}
           </article>
         </section>

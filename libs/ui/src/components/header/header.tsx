@@ -5,7 +5,7 @@ export function Header({ children, className, ...rest }: HeaderProps) {
   return (
     <header
       className={twMerge(
-        ['px-6 py-4 flex items-center justify-between border-b min-w-full'],
+        ['px-4 py-3 flex items-center justify-between border-b min-w-full'],
         className
       )}
       {...rest}

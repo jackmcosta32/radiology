@@ -1,6 +1,5 @@
 import '@/ui/styles/global.scss';
 import { sans, mono } from '@/ui/fonts';
-import { MainLayout } from '@/ui/layouts/main-layout';
 import { ThemeProvider } from '@/ui/contexts/theme-context';
 
 export const metadata = {
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
-        <ThemeProvider>
-          <MainLayout>{children}</MainLayout>
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

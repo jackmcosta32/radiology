@@ -18,7 +18,7 @@ export function Editor({ className }: EditorProps) {
     extensions: defaultExtensions,
     editorProps: {
       attributes: {
-        class: 'outline-none',
+        class: 'outline-none px-4 md:px-24',
       },
       handleKeyDown(view, event) {
         const key = event.key;

@@ -22,22 +22,28 @@ function absoluteRect(node: Element) {
   };
 }
 
-function nodeDOMAtCoords(coords: { x: number; y: number }) {
-  return document
-    .elementsFromPoint(coords.x, coords.y)
-    .find(
-      (elem: Element) =>
-        elem.parentElement?.matches?.('.ProseMirror') ||
-        elem.matches(
-          [
-            'li',
-            'p:not(:first-child)',
-            'pre',
-            'blockquote',
-            'h1, h2, h3, h4, h5, h6',
-          ].join(', ')
-        )
-    );
+function nodeDOMAtCoords(event: MouseEvent, options?: DragHandleOptions) {
+  const { clientX, clientY } = event;
+  const dragHandleWidth = options?.dragHandleWidth ?? 0;
+
+  const elements = document.elementsFromPoint(
+    clientX + dragHandleWidth + 50,
+    clientY
+  );
+
+  const allowedElementTypes = [
+    'li',
+    'p:not(:first-child)',
+    'pre',
+    'blockquote',
+    'h1, h2, h3, h4, h5, h6',
+  ].join(', ');
+
+  return elements.find(
+    (element) =>
+      element.parentElement?.matches?.('.ProseMirror') ||
+      element.matches(allowedElementTypes)
+  );
 }
 
 function nodePosAtDOM(node: Element, view: EditorView) {
@@ -57,10 +63,7 @@ function DragHandle(options: DragHandleOptions) {
 
     if (!event.dataTransfer) return;
 
-    const node = nodeDOMAtCoords({
-      x: event.clientX + 50 + options.dragHandleWidth,
-      y: event.clientY,
-    });
+    const node = nodeDOMAtCoords(event, options);
 
     if (!(node instanceof Element)) return;
 
@@ -89,10 +92,7 @@ function DragHandle(options: DragHandleOptions) {
 
     view.dom.classList.remove('dragging');
 
-    const node = nodeDOMAtCoords({
-      x: event.clientX + 50 + options.dragHandleWidth,
-      y: event.clientY,
-    });
+    const node = nodeDOMAtCoords(event, options);
 
     if (!(node instanceof Element)) return;
 
@@ -107,10 +107,7 @@ function DragHandle(options: DragHandleOptions) {
   const handleOnMouseMove = (view: EditorView, event: MouseEvent) => {
     if (!view.editable) return;
 
-    const node = nodeDOMAtCoords({
-      x: event.clientX + 50 + options.dragHandleWidth,
-      y: event.clientY,
-    });
+    const node = nodeDOMAtCoords(event, options);
 
     if (!(node instanceof Element) || node.matches('ul, ol')) {
       hideDragHandle();
@@ -141,13 +138,13 @@ function DragHandle(options: DragHandleOptions) {
 
   const hideDragHandle = () => {
     if (dragHandleElement) {
-      dragHandleElement.classList.add('hidden');
+      dragHandleElement.classList.add('hide');
     }
   };
 
   const showDragHandle = () => {
     if (dragHandleElement) {
-      dragHandleElement.classList.remove('hidden');
+      dragHandleElement.classList.remove('hide');
     }
   };
 
@@ -196,10 +193,7 @@ function DragHandle(options: DragHandleOptions) {
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface DragAndDropOptions {}
-
-export const EditorDragAndDrop = Extension.create<DragAndDropOptions>({
+export const EditorDragAndDrop = Extension.create<DragHandleOptions>({
   name: 'dragAndDrop',
 
   addProseMirrorPlugins() {
