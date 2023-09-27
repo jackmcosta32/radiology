@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
+import { Button } from '../../../button';
 import { isEmpty } from '../../../../utils/arrays/is-empty';
+import { ScrollArea } from '../../../scroll-area/scroll-area';
 import type { EditorSlashMenuProps } from './editor-slash-menu.types';
 import { isClientSide } from '../../../../utils/server-side/is-client-side';
 
@@ -26,17 +28,7 @@ const updateScrollView = (
 ) => {
   if (!wrapper || !item) return;
 
-  const itemHeight = item.offsetHeight ?? 0;
-  const wrapperHeight = wrapper.offsetHeight ?? 0;
-
-  const top = item.offsetTop;
-  const bottom = top + itemHeight;
-
-  if (top < wrapper.scrollTop) {
-    wrapper.scrollTop -= wrapper.scrollTop - top + 5;
-  } else if (bottom > wrapperHeight + wrapper.scrollTop) {
-    wrapper.scrollTop += bottom - wrapperHeight - wrapper.scrollTop + 5;
-  }
+  item.scrollIntoView({ behavior: 'smooth' });
 };
 
 const renderMenuItems = (
@@ -46,24 +38,32 @@ const renderMenuItems = (
 ) => {
   if (isEmpty(items)) return;
 
-  const menuItems = items.map((item, index) => (
-    <button
-      key={item.title}
-      data-active={index === selectedIndex}
-      onClick={() => handleItemSelection(index, items, command)}
-      className={
-        'flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 data-[active=true]:bg-stone-100 data-[active=true]:text-stone-900'
-      }
-    >
-      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-stone-200 bg-white">
-        {item.icon}
-      </div>
-      <div>
-        <p className="font-medium">{item.title}</p>
-        <p className="text-xs text-stone-500">{item.description}</p>
-      </div>
-    </button>
-  ));
+  const menuItems = items.map(({ icon, title, description }, index) => {
+    const active = index === selectedIndex;
+
+    return (
+      <Button
+        key={title}
+        variant="ghost"
+        data-active={active}
+        onClick={() => handleItemSelection(index, items, command)}
+        className="w-full flex flex-row justify-start gap-1 px-4 py-6 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground"
+      >
+        {icon && (
+          <div className="flex h-10 w-10 items-center justify-center rounded-md border border-border">
+            {icon}
+          </div>
+        )}
+
+        <div className="text-start flex flex-col">
+          <span className="text-sm font-medium">{title}</span>
+          <span className="text-xs font-normal text-zinc-500">
+            {description}
+          </span>
+        </div>
+      </Button>
+    );
+  });
 
   return menuItems;
 };
@@ -118,12 +118,12 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
   if (!hasItems) return null;
 
   return (
-    <div
+    <ScrollArea
       ref={wrapperRef}
       id={SLASH_MENU_ID}
-      className="z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
+      className="z-50 max-h-[30rem] rounded-md border border-border bg-white px-1 py-2 shadow-md transition-all"
     >
       {renderMenuItems(selectedIndex, items, command)}
-    </div>
+    </ScrollArea>
   );
 }
