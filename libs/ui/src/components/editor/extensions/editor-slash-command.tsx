@@ -3,6 +3,7 @@ import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
 import { Editor, Range, Extension } from '@tiptap/core';
 import { EditorSlashMenu } from '../components/editor-slash-menu';
+import { toggleDocumentScroll } from '../../../utils/scroll/toggle-document-scroll';
 import {
   Heading1,
   Heading2,
@@ -209,6 +210,8 @@ const renderItems = () => {
       popup = tippy('body', {
         getReferenceClientRect: props.clientRect,
         appendTo: () => document.body,
+        onCreate: () => toggleDocumentScroll(false),
+        onDestroy: () => toggleDocumentScroll(true),
         content: component.element,
         showOnCreate: true,
         interactive: true,

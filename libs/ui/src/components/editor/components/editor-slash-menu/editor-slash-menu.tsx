@@ -28,7 +28,17 @@ const updateScrollView = (
 ) => {
   if (!wrapper || !item) return;
 
-  item.scrollIntoView({ behavior: 'smooth' });
+  const itemHeight = item.offsetHeight ?? 0;
+  const wrapperHeight = wrapper.offsetHeight ?? 0;
+
+  const top = item.offsetTop;
+  const bottom = top + itemHeight;
+
+  if (top < wrapper.scrollTop) {
+    wrapper.scrollTop -= wrapper.scrollTop - top + 5;
+  } else if (bottom > wrapperHeight + wrapper.scrollTop) {
+    wrapper.scrollTop += bottom - wrapperHeight - wrapper.scrollTop + 5;
+  }
 };
 
 const renderMenuItems = (
