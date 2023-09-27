@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce';
 import { Extension } from '@tiptap/core';
 import { NodeSelection, Plugin } from '@tiptap/pm/state';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -10,6 +11,7 @@ export interface DragHandleOptions {
    */
   dragHandleWidth: number;
 }
+
 function absoluteRect(node: Element) {
   const data = node.getBoundingClientRect();
 
@@ -48,7 +50,9 @@ function nodePosAtDOM(node: Element, view: EditorView) {
 }
 
 function DragHandle(options: DragHandleOptions) {
-  function handleDragStart(event: DragEvent, view: EditorView) {
+  let dragHandleElement: HTMLElement | null = null;
+
+  const handleDragStart = (event: DragEvent, view: EditorView) => {
     view.focus();
 
     if (!event.dataTransfer) return;
@@ -78,9 +82,9 @@ function DragHandle(options: DragHandleOptions) {
     event.dataTransfer.setDragImage(node, 0, 0);
 
     view.dragging = { slice, move: event.ctrlKey };
-  }
+  };
 
-  function handleClick(event: MouseEvent, view: EditorView) {
+  const handleClick = (event: MouseEvent, view: EditorView) => {
     view.focus();
 
     view.dom.classList.remove('dragging');
@@ -98,21 +102,54 @@ function DragHandle(options: DragHandleOptions) {
     view.dispatch(
       view.state.tr.setSelection(NodeSelection.create(view.state.doc, nodePos))
     );
-  }
+  };
 
-  let dragHandleElement: HTMLElement | null = null;
+  const handleOnMouseMove = (view: EditorView, event: MouseEvent) => {
+    if (!view.editable) return;
 
-  function hideDragHandle() {
+    const node = nodeDOMAtCoords({
+      x: event.clientX + 50 + options.dragHandleWidth,
+      y: event.clientY,
+    });
+
+    if (!(node instanceof Element) || node.matches('ul, ol')) {
+      hideDragHandle();
+      return;
+    }
+
+    const compStyle = window.getComputedStyle(node);
+    const lineHeight = parseInt(compStyle.lineHeight, 10);
+    const paddingTop = parseInt(compStyle.paddingTop, 10);
+
+    const rect = absoluteRect(node);
+
+    rect.top += (lineHeight - 24) / 2;
+    rect.top += paddingTop;
+
+    // Li markers
+    if (node.matches('ul:not([data-type=taskList]) li, ol li')) {
+      rect.left -= options.dragHandleWidth;
+    }
+    rect.width = options.dragHandleWidth;
+
+    if (!dragHandleElement) return;
+
+    dragHandleElement.style.left = `${rect.left - rect.width}px`;
+    dragHandleElement.style.top = `${rect.top}px`;
+    showDragHandle();
+  };
+
+  const hideDragHandle = () => {
     if (dragHandleElement) {
       dragHandleElement.classList.add('hidden');
     }
-  }
+  };
 
-  function showDragHandle() {
+  const showDragHandle = () => {
     if (dragHandleElement) {
       dragHandleElement.classList.remove('hidden');
     }
-  }
+  };
 
   return new Plugin({
     view: (view) => {
@@ -140,48 +177,9 @@ function DragHandle(options: DragHandleOptions) {
     },
     props: {
       handleDOMEvents: {
-        mousemove: (view, event) => {
-          if (!view.editable) {
-            return;
-          }
-
-          const node = nodeDOMAtCoords({
-            x: event.clientX + 50 + options.dragHandleWidth,
-            y: event.clientY,
-          });
-
-          if (!(node instanceof Element) || node.matches('ul, ol')) {
-            hideDragHandle();
-            return;
-          }
-
-          const compStyle = window.getComputedStyle(node);
-          const lineHeight = parseInt(compStyle.lineHeight, 10);
-          const paddingTop = parseInt(compStyle.paddingTop, 10);
-
-          const rect = absoluteRect(node);
-
-          rect.top += (lineHeight - 24) / 2;
-          rect.top += paddingTop;
-
-          // Li markers
-          if (node.matches('ul:not([data-type=taskList]) li, ol li')) {
-            rect.left -= options.dragHandleWidth;
-          }
-          rect.width = options.dragHandleWidth;
-
-          if (!dragHandleElement) return;
-
-          dragHandleElement.style.left = `${rect.left - rect.width}px`;
-          dragHandleElement.style.top = `${rect.top}px`;
-          showDragHandle();
-        },
-        keydown: () => {
-          hideDragHandle();
-        },
-        mousewheel: () => {
-          hideDragHandle();
-        },
+        keydown: hideDragHandle,
+        mousewheel: hideDragHandle,
+        mousemove: debounce(handleOnMouseMove, 200),
         // dragging class is used for CSS
         dragstart: (view) => {
           view.dom.classList.add('dragging');
