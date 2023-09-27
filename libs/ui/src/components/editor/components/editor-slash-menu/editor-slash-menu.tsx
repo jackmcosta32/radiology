@@ -22,12 +22,7 @@ const handleItemSelection = (
   command(item);
 };
 
-const updateScrollView = (
-  wrapper: HTMLElement | null,
-  item: HTMLElement | null
-) => {
-  if (!wrapper || !item) return;
-
+const updateScrollView = (wrapper: HTMLElement, item: HTMLElement) => {
   const itemHeight = item.offsetHeight ?? 0;
   const wrapperHeight = wrapper.offsetHeight ?? 0;
 
@@ -54,6 +49,7 @@ const renderMenuItems = (
     return (
       <Button
         key={title}
+        role="menuitem"
         variant="ghost"
         data-active={active}
         onClick={() => handleItemSelection(index, items, command)}
@@ -79,7 +75,7 @@ const renderMenuItems = (
 };
 
 export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
-  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const hasItems = Array.isArray(items) && items.length;
@@ -119,19 +115,31 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
   }, [handleOnKeyDown]);
 
   React.useEffect(() => {
-    const wrapper = wrapperRef?.current;
-    const item = wrapper?.children[selectedIndex] as HTMLElement;
+    const scrollArea = scrollAreaRef?.current;
 
-    updateScrollView(wrapper, item);
+    const wrapper = scrollArea?.querySelector(
+      '[data-radix-scroll-area-viewport]'
+    );
+
+    const items = scrollArea?.querySelectorAll('[role="menuitem"]');
+
+    if (!items) return;
+
+    const item = items[selectedIndex];
+
+    if (!wrapper || !item) return;
+
+    updateScrollView(wrapper as HTMLElement, item as HTMLElement);
   }, [selectedIndex]);
 
   if (!hasItems) return null;
 
   return (
     <ScrollArea
-      ref={wrapperRef}
+      role="menu"
       id={SLASH_MENU_ID}
-      className="z-50 max-h-[30rem] rounded-md border border-border bg-white px-1 py-2 shadow-md transition-all"
+      ref={scrollAreaRef}
+      className="z-50 h-80 rounded-md border border-border bg-white px-1 py-2 shadow-md transition-all"
     >
       {renderMenuItems(selectedIndex, items, command)}
     </ScrollArea>
