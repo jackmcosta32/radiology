@@ -9,6 +9,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import { useLocalStorage } from '../../hooks/use-local-storage';
 import { EditorBubbleMenu } from './components/editor-bubble-menu';
 import { useDebounce } from '../../hooks/use-debounce/use-debounce';
+import { EditorFloatingMenu } from './components/editor-floating-menu';
 import {
   SLASH_MENU_ID,
   SLASH_MENU_MAPPED_KEYS,
@@ -101,6 +102,8 @@ export function Editor({
       />
 
       <EditorBubbleMenu editor={editor} />
+
+      <EditorFloatingMenu editor={editor} />
     </>
   );
 }

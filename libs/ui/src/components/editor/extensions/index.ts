@@ -15,7 +15,7 @@ export const defaultExtensions = [
   EditorTaskItem,
   EditorUnderline,
   EditorPlaceholder,
-  EditorDragAndDrop,
+  // EditorDragAndDrop,
   EditorSyntaxHighlight,
   EditorSlashCommand,
 ];

@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core';
+import type { BaseEditor } from '../../editor.types';
 
 export interface CommandItemProps {
   title: string;
@@ -7,7 +7,7 @@ export interface CommandItemProps {
 }
 
 export interface EditorSlashMenuProps {
-  editor: Editor;
+  editor: BaseEditor;
   items: CommandItemProps[];
   command: (item: CommandItemProps) => void;
 }
