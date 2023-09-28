@@ -9,6 +9,7 @@ import { getElementPosition } from '../../utils/get-element-position';
 import { isClientSide } from '../../../../utils/server-side/is-client-side';
 import type { EditorFloatingMenuProps } from './editor-floating-menu.types';
 import { getElementBoundingRect } from '../../utils/get-element-bounding-rect';
+import { EditorElementAdditionButton } from '../editor-element-addition-button';
 
 export function EditorFloatingMenu({
   editor,
@@ -49,7 +50,7 @@ export function EditorFloatingMenu({
     if (!wrapper) return hideMenuContent();
 
     const hoveredElement = getHoveredElement(event, {
-      offsetX: wrapper.clientWidth,
+      offsetX: wrapper.clientWidth + 50,
     });
 
     const isElement = hoveredElement instanceof Element;
@@ -104,6 +105,11 @@ export function EditorFloatingMenu({
       className="flex flex-row gap-1 absolute data-[hidden=true]:opacity-0 data-[hidden=true]:pointer-events-none transition-opacity p-1"
     >
       {children}
+
+      <EditorElementAdditionButton
+        editor={editor}
+        hoveredElement={hoveredElement}
+      />
 
       <EditorDragHandle
         editor={editor}
