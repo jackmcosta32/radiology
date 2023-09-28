@@ -1,6 +1,6 @@
 import type { BaseEditorView } from '../editor.types';
 
-export const getElementDepth = (element: Element, view: BaseEditorView) => {
+export const getElementPosition = (element: Element, view: BaseEditorView) => {
   const rect = element.getBoundingClientRect();
 
   const position = view.posAtCoords({
@@ -8,5 +8,5 @@ export const getElementDepth = (element: Element, view: BaseEditorView) => {
     left: rect.left + 1,
   });
 
-  return position?.inside;
+  return position;
 };

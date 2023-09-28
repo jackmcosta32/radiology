@@ -1,13 +1,11 @@
+'use client';
+
 import React from 'react';
-import { NodeSelection } from '@tiptap/pm/state';
 import { EditorDragHandle } from '../editor-drag-handle';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { __serializeForClipboard } from '@tiptap/pm/view';
 import { useThrottle } from '../../../../hooks/use-throttle';
 import { INVALID_ELEMENT_SELECTOR } from '../../editor.config';
-import { getElementDepth } from '../../utils/get-element-depth';
 import { getHoveredElement } from '../../utils/get-hovered-element';
+import { getElementPosition } from '../../utils/get-element-position';
 import { isClientSide } from '../../../../utils/server-side/is-client-side';
 import type { EditorFloatingMenuProps } from './editor-floating-menu.types';
 import { getElementBoundingRect } from '../../utils/get-element-bounding-rect';
@@ -32,6 +30,19 @@ export function EditorFloatingMenu({
 
   const hideMenuContent = () => {
     wrapper?.setAttribute('data-hidden', 'true');
+  };
+
+  const handleOnClick: React.MouseEventHandler<HTMLDivElement> = () => {
+    if (!editor || !view || !hoveredElement) return;
+
+    const position = getElementPosition(hoveredElement, view);
+    const depth = position?.inside;
+
+    if (typeof depth !== 'number' || depth < 0) return;
+
+    editor.commands.focus(depth);
+
+    view.dom.classList.remove('dragging');
   };
 
   const handleOnMouseMove = (event: MouseEvent) => {
@@ -63,36 +74,6 @@ export function EditorFloatingMenu({
     showMenuContent();
   };
 
-  const handleOnDragStart: React.DragEventHandler<HTMLDivElement> = (event) => {
-    if (!view || !hoveredElement) return;
-
-    view.focus();
-
-    const dataTransfer = event?.dataTransfer;
-
-    if (!dataTransfer) return;
-
-    const depth = getElementDepth(hoveredElement, view);
-
-    if (typeof depth !== 'number' || depth < 0) return;
-
-    const nodeSelection = NodeSelection.create(view.state.doc, depth);
-    const selectionTransaction = view.state.tr.setSelection(nodeSelection);
-
-    view.dispatch(selectionTransaction);
-
-    const slice = view.state.selection.content();
-    const { dom, text } = __serializeForClipboard(view, slice);
-
-    dataTransfer.clearData();
-    dataTransfer.setData('text/html', dom.innerHTML);
-    dataTransfer.setData('text/plain', text);
-    dataTransfer.effectAllowed = 'copyMove';
-    dataTransfer.setDragImage(hoveredElement, 0, 0);
-
-    view.dragging = { slice, move: event.ctrlKey };
-  };
-
   const throttledHandleOnMouseMove = useThrottle(
     {
       method: handleOnMouseMove,
@@ -119,13 +100,15 @@ export function EditorFloatingMenu({
     <div
       ref={wrapperRef}
       data-hidden={true}
-      className="absolute data-[hidden=true]:opacity-0 data-[hidden=true]:pointer-events-none transition-opacity p-1"
+      onClick={handleOnClick}
+      className="flex flex-row gap-1 absolute data-[hidden=true]:opacity-0 data-[hidden=true]:pointer-events-none transition-opacity p-1"
     >
       {children}
 
       <EditorDragHandle
+        editor={editor}
         onDragEnd={hideMenuContent}
-        onDragStart={handleOnDragStart}
+        hoveredElement={hoveredElement}
       />
     </div>
   );
