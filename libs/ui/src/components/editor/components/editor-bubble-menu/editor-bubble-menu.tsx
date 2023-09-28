@@ -35,43 +35,41 @@ export function EditorBubbleMenu({
   shouldShow,
   ...rest
 }: EditorBubbleMenuProps) {
-  const focus = editor?.chain().focus();
-
   const menuActions: TAction[] = [
     {
       key: 'bold',
       variant: 'toggle',
       active: editor?.isActive('bold'),
       label: <FontBoldIcon className="w-4 h-4" />,
-      onClick: () => focus?.toggleBold().run(),
+      onClick: () => editor?.chain().focus().toggleBold().run(),
     },
     {
       key: 'italic',
       variant: 'toggle',
       active: editor?.isActive('italic'),
       label: <FontItalicIcon className="w-4 h-4" />,
-      onClick: () => focus?.toggleItalic().run(),
+      onClick: () => editor?.chain().focus().toggleItalic().run(),
     },
     {
       key: 'underline',
       variant: 'toggle',
       active: editor?.isActive('underline'),
       label: <UnderlineIcon className="w-4 h-4" />,
-      onClick: () => focus?.toggleUnderline().run(),
+      onClick: () => editor?.chain().focus().toggleUnderline().run(),
     },
     {
       key: 'strike',
       variant: 'toggle',
       active: editor?.isActive('strike'),
       label: <StrikethroughIcon className="w-4 h-4" />,
-      onClick: () => focus?.toggleStrike().run(),
+      onClick: () => editor?.chain().focus().toggleStrike().run(),
     },
     {
       key: 'code',
       variant: 'toggle',
       active: editor?.isActive('code'),
       label: <CodeIcon className="w-4 h-4" />,
-      onClick: () => focus?.toggleCode().run(),
+      onClick: () => editor?.chain().focus().toggleCode().run(),
     },
   ];
 
