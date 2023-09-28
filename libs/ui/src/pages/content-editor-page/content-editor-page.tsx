@@ -4,7 +4,7 @@ import type { ContentEditorPageProps } from './content-editor-page.types';
 export function ContentEditorPage({ ...rest }: ContentEditorPageProps) {
   return (
     <div className="flex flex-row w-full min-h-screen">
-      <aside className="bg-zinc-50 border-r border-border p-4 min-w-[18rem] hidden md:flex">
+      <aside className="bg-zinc-50 border-r border-border p-4 w-72 hidden md:flex">
         foo
       </aside>
 

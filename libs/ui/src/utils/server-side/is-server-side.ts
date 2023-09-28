@@ -1,3 +1,3 @@
-export function isServerSide(document?: unknown): document is undefined {
+export function isServerSide() {
   return typeof document === 'undefined';
 }

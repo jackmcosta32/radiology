@@ -1,7 +1,7 @@
-import { isClientSide } from '../server-side';
+import { isServerSide } from '../server-side';
 
 export function toggleDocumentScroll(enabled: boolean) {
-  if (!isClientSide(document)) return;
+  if (isServerSide()) return;
 
   const documentStyles = document.documentElement.style;
 

@@ -1,3 +1,3 @@
-export function isClientSide(document?: unknown): document is Document {
+export function isClientSide() {
   return typeof document !== 'undefined';
 }

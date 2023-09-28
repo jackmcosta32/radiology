@@ -103,12 +103,12 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
   };
 
   React.useEffect(() => {
-    if (isClientSide(document)) {
+    if (isClientSide()) {
       document.addEventListener('keydown', handleOnKeyDown);
     }
 
     return () => {
-      if (isClientSide(document)) {
+      if (isClientSide()) {
         document.removeEventListener('keydown', handleOnKeyDown);
       }
     };

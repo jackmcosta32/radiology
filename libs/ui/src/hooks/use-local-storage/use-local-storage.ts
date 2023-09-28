@@ -3,7 +3,7 @@ import { isServerSide } from '../../utils/server-side/is-server-side';
 
 export function useLocalStorage<Value>(key: string, initialValue?: Value) {
   const [storedValue, setStoredValue] = useState(() => {
-    if (isServerSide(document)) {
+    if (isServerSide()) {
       return initialValue;
     }
 
@@ -21,7 +21,7 @@ export function useLocalStorage<Value>(key: string, initialValue?: Value) {
 
     setStoredValue(valueToStore);
 
-    if (isServerSide(document)) return;
+    if (isServerSide()) return;
 
     const stringifyedValue = JSON.stringify(valueToStore);
 
