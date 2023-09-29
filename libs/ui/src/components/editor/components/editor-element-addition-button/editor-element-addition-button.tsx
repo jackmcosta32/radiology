@@ -22,8 +22,21 @@ export function EditorElementAdditionButton({
 
     if (typeof depth !== 'number' || depth < 0) return;
 
-    editor.commands.focus(depth);
+    const isListElement = hoveredElement.matches(LIST_ELEMENT_SELECTOR);
+
+    if (isListElement) {
+      editor.commands.setNodeSelection(depth);
+    } else {
+      editor.commands.focus(depth);
+    }
+
     editor.commands.selectTextblockEnd();
+
+    if (isListElement) {
+      editor.commands.createParagraphNear();
+      editor.commands.focus();
+    }
+
     editor.commands.enter();
   };
 

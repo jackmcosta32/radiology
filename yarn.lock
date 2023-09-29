@@ -4354,6 +4354,11 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-task-list/-/extension-task-list-2.1.11.tgz#f5f3cfd9a8beacbe7899ff712618b81a189f5fb2"
   integrity sha512-9C1M9N3jbNjm4001mPkgwUH19b6ZvKj5nnRT3zib/gFIQLOnSHE3VErDPHP/lkkjH84LgOMrm69cm8chQpgNsA==
 
+"@tiptap/extension-text-style@^2.1.11":
+  version "2.1.11"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-text-style/-/extension-text-style-2.1.11.tgz#b2fbea4f52b68f339b4941103ea2e03d1ac996a3"
+  integrity sha512-+JDWmcSUyFKzMDm/1xqlk7e0qPJ1nQ/UKIRuDeRtqgbxTyEw4fNlkV2k7GHCoELXqxUoplzweLID+kM1Vk2OaA==
+
 "@tiptap/extension-text@^2.1.11":
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-text/-/extension-text-2.1.11.tgz#f67ac1a782a8ee1d30885680e52bba3ef19322f9"
