@@ -61,10 +61,13 @@ export function EditorFloatingMenu({
 
     if (isInvalid) return hideMenuContent();
 
+    const wrapperStyles = window.getComputedStyle(wrapper);
+    const paddingTop = parseInt(wrapperStyles.paddingTop, 10);
+
     const hoveredElementRect = getElementBoundingRect(hoveredElement);
 
+    wrapper.style.top = `${hoveredElementRect.top - paddingTop}px`;
     wrapper.style.left = `${hoveredElementRect.left - wrapper.clientWidth}px`;
-    wrapper.style.top = `${hoveredElementRect.top}px`;
 
     if (typeof onHoverElement === 'function') {
       onHoverElement(hoveredElement);

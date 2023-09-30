@@ -17,6 +17,10 @@
   }
 
   // To-do list styles
+  ul[data-type='taskList'] > li > div {
+    width: 100%;
+  }
+
   ul[data-type='taskList'] li > label {
     margin-right: 0.2rem;
     user-select: none;

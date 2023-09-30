@@ -1,8 +1,11 @@
 import { Plus } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
-import { LIST_ELEMENT_SELECTOR } from '../../editor.config';
 import { getElementPosition } from '../../utils/get-element-position';
 import type { EditorDragHandleProps } from './editor-element-addition-button.types';
+import {
+  CHECKLIST_ELEMENT_SELECTOR,
+  LIST_ELEMENT_SELECTOR,
+} from '../../editor.config';
 
 export function EditorElementAdditionButton({
   editor,
@@ -22,9 +25,9 @@ export function EditorElementAdditionButton({
 
     if (typeof depth !== 'number' || depth < 0) return;
 
-    const isListElement = hoveredElement.matches(LIST_ELEMENT_SELECTOR);
+    const isList = hoveredElement.matches(LIST_ELEMENT_SELECTOR);
 
-    if (isListElement) {
+    if (isList) {
       editor.commands.setNodeSelection(depth);
     } else {
       editor.commands.focus(depth);
@@ -32,7 +35,7 @@ export function EditorElementAdditionButton({
 
     editor.commands.selectTextblockEnd();
 
-    if (isListElement) {
+    if (isList) {
       editor.commands.createParagraphNear();
       editor.commands.focus();
     }
