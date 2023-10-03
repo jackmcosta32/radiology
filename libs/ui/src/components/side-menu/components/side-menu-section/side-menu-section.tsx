@@ -16,14 +16,16 @@ export function SideMenuSection({
   const renderedSectionItems = React.useMemo(() => {
     if (isEmpty(items)) return null;
 
-    return items?.map((item) => {
+    return items.map((item, index) => {
+      const key = item.title ?? index;
+
       switch (item.variant) {
         case SECTION_ITEM_VARIANTS.LINK:
-          return <SideMenuSectionLinkItem key={item.title} {...item} />;
+          return <SideMenuSectionLinkItem key={key} {...item} />;
         case SECTION_ITEM_VARIANTS.BUTTON:
-          return <SideMenuSectionButtonItem key={item.title} {...item} />;
+          return <SideMenuSectionButtonItem key={key} {...item} />;
         case SECTION_ITEM_VARIANTS.LIST:
-          return <SideMenuSectionListItem key={item.title} {...item} />;
+          return <SideMenuSectionListItem key={key} {...item} />;
         default:
           return null;
       }
@@ -33,12 +35,12 @@ export function SideMenuSection({
   return (
     <div {...rest}>
       {title && (
-        <h2 className="px-3 mb-2 text-lg font-semibold tracking-tight">
+        <h2 className="px-2 mb-2 text-lg font-semibold tracking-tight">
           {title}
         </h2>
       )}
 
-      <ul className="flex flex-col gap-y-1">{renderedSectionItems}</ul>
+      <ul className="flex flex-col">{renderedSectionItems}</ul>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export interface TSectionButtonItem
 
 export interface TSectionListItem extends TSectionBaseItem {
   variant: 'list';
-  subItems?: Array<TSectionLinkItem | TSectionButtonItem | TSectionListItem>;
+  subItems: Array<TSectionLinkItem | TSectionButtonItem | TSectionListItem>;
 }
 
 export const SECTION_ITEM_VARIANTS = {

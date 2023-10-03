@@ -1,5 +1,6 @@
 'use client';
 
+import './editor.scss';
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import { initialContent } from './content';

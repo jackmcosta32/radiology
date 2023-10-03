@@ -17,11 +17,12 @@ To-do:
 
 [x] Add support to dash menu
 [x] Add support to drag handles  
-[] Add support to node button  
-[] Add support to links
+[x] Persist document changes locally
+[x] Add support to node button  
+[x] Add support to links
+[] Add a chatbot!
 [] Add support to images
 [] Add support to colors
-[] Persist document changes locally
 [] Add support to multiplayer (yjs)
 [] Enhance bubble menu
 [] Add support for custom locales (i18n)

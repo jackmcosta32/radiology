@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '../../../button';
 import { Menubar } from '../../../menubar';
 import { BubbleMenu, isNodeSelection } from '@tiptap/react';
+import { EditorNodeSelector } from '../editor-node-selector';
 import type {
   TAction,
   EditorBubbleMenuProps,
@@ -35,6 +36,8 @@ export function EditorBubbleMenu({
   shouldShow,
   ...rest
 }: EditorBubbleMenuProps) {
+  const [openNodeSelector, setOpenNodeSelector] = React.useState(false);
+
   const menuActions: TAction[] = [
     {
       key: 'bold',
@@ -84,12 +87,18 @@ export function EditorBubbleMenu({
     });
   }, [editor, menuActions]);
 
+  const handleOnHidden = () => {
+    setOpenNodeSelector(false);
+  };
+
   const handleShouldShow: EditorBubbleMenuProps['shouldShow'] = (params) => {
     let customVerification = true;
     const { selection } = params.state;
     const emptySelection = selection.empty;
     const nodeSelection = isNodeSelection(selection);
     const imageSelection = params.editor.isActive('image');
+
+    if (openNodeSelector) return true;
 
     if (typeof shouldShow === 'function') {
       customVerification = shouldShow(params);
@@ -103,8 +112,19 @@ export function EditorBubbleMenu({
   if (!editor) return null;
 
   return (
-    <BubbleMenu editor={editor} shouldShow={handleShouldShow} {...rest}>
-      <Menubar className="relative py-6">{renderedActions}</Menubar>
+    <BubbleMenu
+      editor={editor}
+      shouldShow={handleShouldShow}
+      tippyOptions={{
+        moveTransition: 'transform 0.15s ease-out',
+        onHidden: handleOnHidden,
+      }}
+      {...rest}
+    >
+      <Menubar className="relative py-6">
+        <EditorNodeSelector onOpen={setOpenNodeSelector} editor={editor} />
+        {renderedActions}
+      </Menubar>
     </BubbleMenu>
   );
 }

@@ -1,5 +1,5 @@
-import { ContentEditorPage } from '@/ui/pages/content-editor-page';
+import { EditorPage } from '@/ui/pages/editor-page';
 
 export default function Page() {
-  return <ContentEditorPage />;
+  return <EditorPage />;
 }

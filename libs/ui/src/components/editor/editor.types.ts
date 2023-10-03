@@ -12,6 +12,16 @@ export type {
   EditorProps as BaseEditorProps,
 } from '@tiptap/pm/view';
 
+export interface TEditorCommand {
+  key: string;
+  label: string;
+  description?: string;
+  previewImage?: string;
+  icon?: React.ReactNode;
+  command: (editor: BaseEditor) => void;
+  isActive: (editor: BaseEditor) => boolean;
+}
+
 export interface EditorProps {
   /**
    * Additional classes to add to the editor container.

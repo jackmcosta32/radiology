@@ -1,7 +1,7 @@
 .ProseMirror:not(.dragging) .ProseMirror-selectednode {
   outline: none !important;
   border-radius: theme('borderRadius.sm');
-  background-color: theme('colors.blue.200');
+  background-color: theme('colors.blue.100');
   transition: background-color 0.2s;
   box-shadow: none;
 }

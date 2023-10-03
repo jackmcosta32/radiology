@@ -17,10 +17,10 @@ export function SideMenuSectionLinkItem({
       <Link
         href={href}
         variant="ghost"
-        className="w-full justify-start"
+        className="px-2 w-full justify-start"
         {...rest}
       >
-        <span className="text-sm font-medium flex flex-row gap-3">
+        <span className="text-sm font-medium flex items-center flex-row gap-3">
           {icon}
           {title}
         </span>

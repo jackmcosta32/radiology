@@ -23,31 +23,31 @@ export function SideMenuSectionListItem({
 }: SideMenuSectionListItemProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const hasSubItems = !isEmpty(subItems);
-
   const renderedSubItems = React.useMemo(() => {
-    if (!hasSubItems) return null;
+    if (isEmpty(subItems)) return null;
 
-    return subItems?.map((item) => {
+    return subItems.map((item, index) => {
+      const key = item.title ?? index;
+
       switch (item.variant) {
         case SECTION_ITEM_VARIANTS.LINK:
-          return <SideMenuSectionLinkItem key={item.title} {...item} />;
+          return <SideMenuSectionLinkItem key={key} {...item} />;
         case SECTION_ITEM_VARIANTS.BUTTON:
-          return <SideMenuSectionButtonItem key={item.title} {...item} />;
+          return <SideMenuSectionButtonItem key={key} {...item} />;
         case SECTION_ITEM_VARIANTS.LIST:
-          return <SideMenuSectionListItem key={item.title} {...item} />;
+          return <SideMenuSectionListItem key={key} {...item} />;
         default:
           return null;
       }
     });
-  }, [subItems, hasSubItems]);
+  }, [subItems]);
 
   return (
     <li className={twMerge('list-none', className)} {...rest}>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleTrigger asChild>
-          <Button variant="ghost" className="w-full justify-start">
-            <span className="text-sm font-medium flex flex-row gap-3">
+          <Button variant="ghost" className="px-2 w-full justify-start">
+            <span className="text-sm font-medium flex items-center flex-row gap-3">
               {icon}
               {title}
             </span>
@@ -55,7 +55,7 @@ export function SideMenuSectionListItem({
         </CollapsibleTrigger>
 
         <CollapsibleContent asChild>
-          <ul className="ml-4 space-y-1">{renderedSubItems}</ul>
+          <ul className="ml-4">{renderedSubItems}</ul>
         </CollapsibleContent>
       </Collapsible>
     </li>

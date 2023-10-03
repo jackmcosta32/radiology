@@ -20,7 +20,6 @@ export function EditorDragHandle({
     if (!view || !hoveredElement) return;
 
     view.focus();
-
     view.dom.classList.add('dragging');
 
     const dataTransfer = event?.dataTransfer;
@@ -68,7 +67,7 @@ export function EditorDragHandle({
       onDragEnd={handleOnDragEnd}
       onDragStart={handleOnDragStart}
       className={twMerge(
-        'hover:bg-zinc-200 text-zinc-400 p-[0.1rem] rounded transition-colors',
+        'hover:bg-accent text-zinc-500 p-[0.1rem] rounded transition-colors cursor-grab active:cursor-grabbing',
         className
       )}
     >

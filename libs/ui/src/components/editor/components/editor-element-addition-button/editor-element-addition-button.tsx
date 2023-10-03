@@ -1,11 +1,8 @@
 import { Plus } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+import { LIST_ELEMENT_SELECTOR } from '../../editor.config';
 import { getElementPosition } from '../../utils/get-element-position';
 import type { EditorDragHandleProps } from './editor-element-addition-button.types';
-import {
-  CHECKLIST_ELEMENT_SELECTOR,
-  LIST_ELEMENT_SELECTOR,
-} from '../../editor.config';
 
 export function EditorElementAdditionButton({
   editor,
@@ -46,11 +43,10 @@ export function EditorElementAdditionButton({
   return (
     <div
       {...rest}
-      draggable
       role="button"
       onClick={handleOnClick}
       className={twMerge(
-        'hover:bg-zinc-200 text-zinc-400 p-[0.1rem] rounded transition-colors',
+        'hover:bg-accent text-zinc-500 p-[0.1rem] rounded transition-colors',
         className
       )}
     >
