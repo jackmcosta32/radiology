@@ -17,6 +17,8 @@
     "paths": {
       "@/constants": ["libs/constants/src/index.ts"],
       "@/constants/*": ["libs/constants/src/*"],
+      "@/presentation": ["libs/presentation/src/index.ts"],
+      "@/presentation/*": ["libs/presentation/src/*"],
       "@/ui": ["libs/ui/src/index.ts"],
       "@/ui/*": ["libs/ui/src/*"]
     }

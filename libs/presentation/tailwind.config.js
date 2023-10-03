@@ -1,5 +1,5 @@
 const { join } = require('path');
-const tailwindConfig = require('../../libs/presentation/tailwind.config');
+const tailwindConfig = require('../ui/tailwind.config');
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 
 /** @type {import('tailwindcss').Config} */
