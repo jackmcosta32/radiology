@@ -4,12 +4,13 @@ export const getElementBoundingRect = (element: Element) => {
   const rect = element.getBoundingClientRect();
   const elementStyles = window.getComputedStyle(element);
   const paddingTop = parseInt(elementStyles.paddingTop, 10);
+  const lineHeight = parseInt(elementStyles.lineHeight, 10);
   const isListElement = element.matches(LIST_ELEMENT_SELECTOR);
 
   const boundingRect = {
     ...rect,
     left: rect.left + window.scrollX,
-    top: rect.top + window.scrollY + paddingTop,
+    top: rect.top + window.scrollY + paddingTop + lineHeight / 2,
   };
 
   if (!isListElement) return boundingRect;

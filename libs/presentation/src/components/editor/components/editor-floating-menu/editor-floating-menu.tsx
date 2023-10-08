@@ -49,8 +49,10 @@ export function EditorFloatingMenu({
   const handleOnMouseMove = (event: MouseEvent) => {
     if (!wrapper) return hideMenuContent();
 
+    const { clientHeight, clientWidth } = wrapper;
+
     const hoveredElement = getHoveredElement(event, {
-      offsetX: wrapper.clientWidth + 50,
+      offsetX: clientWidth + 50,
     });
 
     const isElement = hoveredElement instanceof Element;
@@ -61,13 +63,10 @@ export function EditorFloatingMenu({
 
     if (isInvalid) return hideMenuContent();
 
-    const wrapperStyles = window.getComputedStyle(wrapper);
-    const paddingTop = parseInt(wrapperStyles.paddingTop, 10);
-
     const hoveredElementRect = getElementBoundingRect(hoveredElement);
 
-    wrapper.style.top = `${hoveredElementRect.top - paddingTop}px`;
-    wrapper.style.left = `${hoveredElementRect.left - wrapper.clientWidth}px`;
+    wrapper.style.left = `${hoveredElementRect.left - clientWidth}px`;
+    wrapper.style.top = `${hoveredElementRect.top - clientHeight / 2}px`;
 
     if (typeof onHoverElement === 'function') {
       onHoverElement(hoveredElement);
