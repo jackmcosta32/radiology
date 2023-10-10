@@ -16,13 +16,13 @@ import {
   SLASH_MENU_MAPPED_KEYS,
 } from './components/editor-slash-menu';
 import type {
-  BaseEditor,
+  TBaseEditor,
   EditorProps,
-  BaseEditorView,
-  BaseEditorOptions,
+  TBaseEditorView,
+  TBaseEditorOptions,
 } from './editor.types';
 
-const handleKeyDown = (view: BaseEditorView, event: KeyboardEvent) => {
+const handleKeyDown = (view: TBaseEditorView, event: KeyboardEvent) => {
   const key = event.key;
   const slashCommand = document.getElementById(SLASH_MENU_ID);
 
@@ -53,7 +53,7 @@ export function Editor({
   const mergedEditorProps = { ...defaultProps, ...editorProps };
   const mergedEditorExtensions = [...defaultExtensions, ...extensions];
 
-  const handleContentCache = (editor: BaseEditor) => {
+  const handleContentCache = (editor: TBaseEditor) => {
     const jsonDocument = editor.getJSON();
 
     setContent(jsonDocument);
@@ -68,7 +68,7 @@ export function Editor({
     [debounceDuration]
   );
 
-  const handleOnUpdate: BaseEditorOptions['onUpdate'] = ({ editor }) => {
+  const handleOnUpdate: TBaseEditorOptions['onUpdate'] = ({ editor }) => {
     if (typeof onUpdate === 'function') {
       onUpdate(editor);
     }

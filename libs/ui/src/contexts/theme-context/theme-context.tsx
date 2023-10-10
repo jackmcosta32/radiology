@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { DEFAULTS } from '../../config/defaults';
+import { useTranslation } from '../../hooks/use-translation';
 import { PALETTE_MODES, type TPaletteMode, type TLocale } from '@/constants';
 import type {
   ThemeContextProps,

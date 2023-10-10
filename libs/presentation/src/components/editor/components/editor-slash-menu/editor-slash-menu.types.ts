@@ -1,4 +1,4 @@
-import type { BaseEditor } from '../../editor.types';
+import type { TBaseEditor } from '../../editor.types';
 
 export interface CommandItemProps {
   title: string;
@@ -7,7 +7,7 @@ export interface CommandItemProps {
 }
 
 export interface EditorSlashMenuProps {
-  editor: BaseEditor;
+  editor: TBaseEditor;
   items: CommandItemProps[];
   command: (item: CommandItemProps) => void;
 }

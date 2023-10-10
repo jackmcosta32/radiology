@@ -1,7 +1,7 @@
-import type { BaseEditor } from '../../editor.types';
+import type { TBaseEditor } from '../../editor.types';
 
 export interface EditorDragHandleProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  editor?: BaseEditor;
+  editor?: TBaseEditor;
   hoveredElement?: Element | null;
 }

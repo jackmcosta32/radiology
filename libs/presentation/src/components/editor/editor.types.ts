@@ -1,14 +1,15 @@
-import type { Editor as BaseEditor } from '@tiptap/core';
 import type { Extension, JSONContent } from '@tiptap/react';
 import type { EditorProps as BaseEditorProps } from '@tiptap/pm/view';
+import type { Editor as TBaseEditor, Range as TRange } from '@tiptap/core';
 
 export type {
-  Editor as BaseEditor,
-  EditorOptions as BaseEditorOptions,
+  Range as TRange,
+  Editor as TBaseEditor,
+  EditorOptions as TBaseEditorOptions,
 } from '@tiptap/core';
 
 export type {
-  EditorView as BaseEditorView,
+  EditorView as TBaseEditorView,
   EditorProps as BaseEditorProps,
 } from '@tiptap/pm/view';
 
@@ -18,8 +19,9 @@ export interface TEditorCommand {
   description?: string;
   previewImage?: string;
   icon?: React.ReactNode;
-  command: (editor: BaseEditor) => void;
-  isActive: (editor: BaseEditor) => boolean;
+  execute: (params: { editor: TBaseEditor; range?: TRange }) => void;
+  isActive: (params: { editor: TBaseEditor; range?: TRange }) => boolean;
+  executeInline: (params: { editor: TBaseEditor; range?: TRange }) => void;
 }
 
 export interface EditorProps {
@@ -44,11 +46,11 @@ export interface EditorProps {
   /**
    * A callback function that is called whenever the editor is updated.
    */
-  onUpdate?: (editor?: BaseEditor) => void | Promise<void>;
+  onUpdate?: (editor?: TBaseEditor) => void | Promise<void>;
   /**
    * A callback function that is called whenever the editor cache is updated.
    */
-  onCacheContent?: (editor?: BaseEditor) => void | Promise<void>;
+  onCacheContent?: (editor?: TBaseEditor) => void | Promise<void>;
   /**
    * The duration (in milliseconds) to debounce the onDebouncedUpdate callback.
    * Defaults to 750.

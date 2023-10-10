@@ -3,23 +3,23 @@
 import React from 'react';
 import { Button } from '@/ui/components/button';
 import { isEmpty } from '@/ui/utils/arrays/is-empty';
+import type { TBaseEditor } from '../../editor.types';
 import { ScrollArea } from '@/ui/components/scroll-area';
 import { isClientSide } from '@/ui/utils/server-side/is-client-side';
-import type { EditorSlashMenuProps } from './editor-slash-menu.types';
+import type { EditorCommandListProps } from './editor-command-list.types';
 
-export const SLASH_MENU_ID = 'slash-command';
-export const SLASH_MENU_MAPPED_KEYS = ['ArrowUp', 'ArrowDown', 'Enter'];
+export const MAPPED_KEYS = { UP: 'ArrowUp', DOWN: 'ArrowDown', ENTER: 'Enter' };
 
 const handleItemSelection = (
+  editor: TBaseEditor,
   index: number,
-  items: EditorSlashMenuProps['items'],
-  command: EditorSlashMenuProps['command']
+  items: EditorCommandListProps['items']
 ) => {
   const item = items[index];
 
-  if (!item) return;
+  if (typeof item?.onClick !== 'function') return;
 
-  command(item);
+  item.onClick({ editor });
 };
 
 const updateScrollView = (wrapper: HTMLElement, item: HTMLElement) => {
@@ -37,23 +37,26 @@ const updateScrollView = (wrapper: HTMLElement, item: HTMLElement) => {
 };
 
 const renderMenuItems = (
+  editor: TBaseEditor,
   selectedIndex: number,
-  items: EditorSlashMenuProps['items'],
-  command: EditorSlashMenuProps['command']
+  items: EditorCommandListProps['items']
 ) => {
   if (isEmpty(items)) return;
 
-  const menuItems = items.map(({ icon, title, description }, index) => {
-    const active = index === selectedIndex;
+  const menuItems = items.map((item, index) => {
+    const { icon, label, key, description, execute, isActive } = item;
+
+    const selected = index === selectedIndex;
+    const active = isActive({ editor }) || selected;
 
     return (
       <Button
-        key={title}
+        key={key}
         role="menuitem"
         variant="ghost"
         data-active={active}
-        onClick={() => handleItemSelection(index, items, command)}
-        className="w-full flex flex-row justify-start gap-2 p-2 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground"
+        onClick={() => execute({ editor })}
+        className="w-full flex flex-row justify-start gap-2 p-2 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground outline:none"
       >
         {icon && (
           <span className="flex h-8 w-8 items-center justify-center rounded-md border border-border">
@@ -62,7 +65,7 @@ const renderMenuItems = (
         )}
 
         <div className="text-start flex flex-col">
-          <span className="text-sm font-medium">{title}</span>
+          <span className="text-sm font-medium">{label}</span>
           <span className="text-xs font-normal text-zinc-500">
             {description}
           </span>
@@ -74,7 +77,11 @@ const renderMenuItems = (
   return menuItems;
 };
 
-export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
+export function EditorCommandList({
+  items,
+  editor,
+  ...rest
+}: EditorCommandListProps) {
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -83,21 +90,21 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
   const handleOnKeyDown = (event: KeyboardEvent) => {
     const key = event.key;
 
-    if (!SLASH_MENU_MAPPED_KEYS.includes(key)) return;
+    if (!Object.values(MAPPED_KEYS).includes(key)) return;
 
     event.preventDefault();
 
     switch (key) {
-      case 'ArrowUp':
+      case MAPPED_KEYS.UP:
         setSelectedIndex((selectedIndex + items.length - 1) % items.length);
         break;
 
-      case 'ArrowDown':
+      case MAPPED_KEYS.DOWN:
         setSelectedIndex((selectedIndex + 1) % items.length);
         break;
 
       default:
-        handleItemSelection(selectedIndex, items, command);
+        handleItemSelection(editor, selectedIndex, items);
         break;
     }
   };
@@ -135,14 +142,9 @@ export function EditorSlashMenu({ items, command }: EditorSlashMenuProps) {
   if (!hasItems) return null;
 
   return (
-    <ScrollArea
-      role="menu"
-      id={SLASH_MENU_ID}
-      ref={scrollAreaRef}
-      className="z-50 h-80 rounded-md border border-border bg-white px-1 py-2 shadow-md transition-all"
-    >
+    <ScrollArea {...rest} role="menu" ref={scrollAreaRef}>
       <div className="gap-2 flex flex-col">
-        {renderMenuItems(selectedIndex, items, command)}
+        {renderMenuItems(editor, selectedIndex, items)}
       </div>
     </ScrollArea>
   );

@@ -1,6 +1,6 @@
-import type { BaseEditorView } from '../editor.types';
+import type { TBaseEditorView } from '../editor.types';
 
-export const getElementPosition = (element: Element, view: BaseEditorView) => {
+export const getElementPosition = (element: Element, view: TBaseEditorView) => {
   const rect = element.getBoundingClientRect();
 
   const position = view.posAtCoords({

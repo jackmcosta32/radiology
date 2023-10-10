@@ -2,33 +2,50 @@
 
 import React from 'react';
 import { Button } from '@/ui/components/button';
+import { COMMANDS } from '../../editor.commands';
 import { Menubar } from '@/ui/components/menubar';
 import { BubbleMenu, isNodeSelection } from '@tiptap/react';
-import { EditorNodeSelector } from '../editor-node-selector';
-import type {
-  TAction,
-  EditorBubbleMenuProps,
-} from './editor-bubble-menu.types';
-import {
-  CodeIcon,
-  FontBoldIcon,
-  UnderlineIcon,
-  FontItalicIcon,
-  StrikethroughIcon,
-} from '@radix-ui/react-icons';
+import { EditorCommandDropdown } from '../editor-command-dropdown';
+import type { TBaseEditor, TEditorCommand } from '../../editor.types';
+import type { EditorBubbleMenuProps } from './editor-bubble-menu.types';
 
-const renderToggleAction = ({ active, key, onClick, label }: TAction) => {
-  return (
-    <Button
-      key={key}
-      variant="ghost"
-      onClick={onClick}
-      data-active={active}
-      className="data-[active=true]:text-primary"
-    >
-      {label}
-    </Button>
-  );
+const MENU_COMMANDS: TEditorCommand[] = [
+  COMMANDS['bold'],
+  COMMANDS['italic'],
+  COMMANDS['underline'],
+  COMMANDS['strike'],
+  COMMANDS['code'],
+];
+
+const NODE_SELECTOR_COMMANDS: TEditorCommand[] = [
+  COMMANDS['text'],
+  COMMANDS['heading-1'],
+  COMMANDS['heading-2'],
+  COMMANDS['heading-3'],
+  COMMANDS['to-do'],
+  COMMANDS['bullet-list'],
+  COMMANDS['numbered-list'],
+  COMMANDS['code'],
+  COMMANDS['quote'],
+];
+
+const renderMenuCommands = (editor: TBaseEditor) => {
+  return MENU_COMMANDS.map((command) => {
+    const { key, icon, executeInline, isActive } = command;
+    const active = isActive({ editor });
+
+    return (
+      <Button
+        key={key}
+        variant="ghost"
+        data-active={active}
+        onClick={() => executeInline({ editor })}
+        className="p-2 data-[active=true]:text-primary"
+      >
+        {icon}
+      </Button>
+    );
+  });
 };
 
 export function EditorBubbleMenu({
@@ -37,55 +54,6 @@ export function EditorBubbleMenu({
   ...rest
 }: EditorBubbleMenuProps) {
   const [openNodeSelector, setOpenNodeSelector] = React.useState(false);
-
-  const menuActions: TAction[] = [
-    {
-      key: 'bold',
-      variant: 'toggle',
-      active: editor?.isActive('bold'),
-      label: <FontBoldIcon className="w-4 h-4" />,
-      onClick: () => editor?.chain().focus().toggleBold().run(),
-    },
-    {
-      key: 'italic',
-      variant: 'toggle',
-      active: editor?.isActive('italic'),
-      label: <FontItalicIcon className="w-4 h-4" />,
-      onClick: () => editor?.chain().focus().toggleItalic().run(),
-    },
-    {
-      key: 'underline',
-      variant: 'toggle',
-      active: editor?.isActive('underline'),
-      label: <UnderlineIcon className="w-4 h-4" />,
-      onClick: () => editor?.chain().focus().toggleUnderline().run(),
-    },
-    {
-      key: 'strike',
-      variant: 'toggle',
-      active: editor?.isActive('strike'),
-      label: <StrikethroughIcon className="w-4 h-4" />,
-      onClick: () => editor?.chain().focus().toggleStrike().run(),
-    },
-    {
-      key: 'code',
-      variant: 'toggle',
-      active: editor?.isActive('code'),
-      label: <CodeIcon className="w-4 h-4" />,
-      onClick: () => editor?.chain().focus().toggleCode().run(),
-    },
-  ];
-
-  const renderedActions = React.useMemo(() => {
-    if (!editor) return null;
-
-    return menuActions.map((action) => {
-      switch (action.variant) {
-        default:
-          return renderToggleAction(action);
-      }
-    });
-  }, [editor, menuActions]);
 
   const handleOnHidden = () => {
     setOpenNodeSelector(false);
@@ -113,17 +81,22 @@ export function EditorBubbleMenu({
 
   return (
     <BubbleMenu
+      {...rest}
       editor={editor}
       shouldShow={handleShouldShow}
       tippyOptions={{
-        moveTransition: 'transform 0.15s ease-out',
         onHidden: handleOnHidden,
+        moveTransition: 'transform 0.15s ease-out',
       }}
-      {...rest}
     >
-      <Menubar className="relative py-6">
-        <EditorNodeSelector onOpen={setOpenNodeSelector} editor={editor} />
-        {renderedActions}
+      <Menubar className="relative py-6 gap-1">
+        <EditorCommandDropdown
+          editor={editor}
+          onOpen={setOpenNodeSelector}
+          commands={NODE_SELECTOR_COMMANDS}
+        />
+
+        {renderMenuCommands(editor)}
       </Menubar>
     </BubbleMenu>
   );
