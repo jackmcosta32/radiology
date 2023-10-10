@@ -17,9 +17,9 @@ const handleItemSelection = (
 ) => {
   const item = items[index];
 
-  if (typeof item?.onClick !== 'function') return;
+  if (typeof item?.execute !== 'function') return;
 
-  item.onClick({ editor });
+  item.execute({ editor });
 };
 
 const updateScrollView = (wrapper: HTMLElement, item: HTMLElement) => {
