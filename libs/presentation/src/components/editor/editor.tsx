@@ -14,7 +14,7 @@ import { EditorFloatingMenu } from './components/editor-floating-menu';
 import {
   SLASH_MENU_ID,
   SLASH_MENU_MAPPED_KEYS,
-} from './components/editor-slash-menu';
+} from './extensions/editor-slash-command';
 import type {
   TBaseEditor,
   EditorProps,
@@ -26,7 +26,7 @@ const handleKeyDown = (view: TBaseEditorView, event: KeyboardEvent) => {
   const key = event.key;
   const slashCommand = document.getElementById(SLASH_MENU_ID);
 
-  return Boolean(slashCommand && SLASH_MENU_MAPPED_KEYS.includes(key));
+  return Boolean(slashCommand && key in SLASH_MENU_MAPPED_KEYS);
 };
 
 const defaultProps = {

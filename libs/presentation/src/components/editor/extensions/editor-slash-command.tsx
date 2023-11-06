@@ -3,16 +3,20 @@ import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
 import { COMMANDS } from '../editor.commands';
 import tippy, { type Instance } from 'tippy.js';
-import { EditorCommandList } from '../components/editor-command-list';
 import type { TBaseEditor, TEditorCommand, TRange } from '../editor.types';
 import { filterCommandSuggestions } from '../utils/filter-command-suggestions';
 import { toggleDocumentScroll } from '@/ui/utils/scroll/toggle-document-scroll';
+import {
+  EditorCommandList,
+  MAPPED_KEYS,
+} from '../components/editor-command-list';
 
 interface TippyInstance<TProps> extends Instance<TProps> {
   getReferenceClientRect: DOMRect;
 }
 
 export const SLASH_MENU_ID = 'slash-command';
+export const SLASH_MENU_MAPPED_KEYS = MAPPED_KEYS;
 
 const SLASH_MENU_COMMANDS: TEditorCommand[] = [
   COMMANDS['text'],
