@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { Button } from '@/ui/components/button';
-import { isEmpty } from '@/ui/utils/arrays/is-empty';
+import { isEmpty } from '@/utils/arrays/is-empty';
 import { ScrollArea } from '@/ui/components/scroll-area';
-import { isClientSide } from '@/ui/utils/server-side/is-client-side';
+import { isClientSide } from '@/utils/server-side/is-client-side';
 import type { EditorSlashMenuProps } from './editor-slash-menu.types';
 
 export const SLASH_MENU_ID = 'slash-command';

@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { Button } from '@/ui/components/button';
-import { isEmpty } from '@/ui/utils/arrays/is-empty';
+import { isEmpty } from '@/utils/arrays/is-empty';
 import type { TBaseEditor } from '../../editor.types';
 import { ScrollArea } from '@/ui/components/scroll-area';
-import { isClientSide } from '@/ui/utils/server-side/is-client-side';
+import { isClientSide } from '@/utils/server-side/is-client-side';
 import type { EditorCommandListProps } from './editor-command-list.types';
 
 export const MAPPED_KEYS = { UP: 'ArrowUp', DOWN: 'ArrowDown', ENTER: 'Enter' };
@@ -87,27 +87,30 @@ export function EditorCommandList({
 
   const hasItems = Array.isArray(items) && items.length;
 
-  const handleOnKeyDown = (event: KeyboardEvent) => {
-    const key = event.key;
+  const handleOnKeyDown = React.useCallback(
+    (event: KeyboardEvent) => {
+      const key = event.key;
 
-    if (!Object.values(MAPPED_KEYS).includes(key)) return;
+      if (!Object.values(MAPPED_KEYS).includes(key)) return;
 
-    event.preventDefault();
+      event.preventDefault();
 
-    switch (key) {
-      case MAPPED_KEYS.UP:
-        setSelectedIndex((selectedIndex + items.length - 1) % items.length);
-        break;
+      switch (key) {
+        case MAPPED_KEYS.UP:
+          setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+          break;
 
-      case MAPPED_KEYS.DOWN:
-        setSelectedIndex((selectedIndex + 1) % items.length);
-        break;
+        case MAPPED_KEYS.DOWN:
+          setSelectedIndex((selectedIndex + 1) % items.length);
+          break;
 
-      default:
-        handleItemSelection(editor, selectedIndex, items);
-        break;
-    }
-  };
+        default:
+          handleItemSelection(editor, selectedIndex, items);
+          break;
+      }
+    },
+    [selectedIndex]
+  );
 
   React.useEffect(() => {
     if (isClientSide()) {

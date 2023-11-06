@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Button } from '../../../button/button';
-import { isEmpty } from '../../../../utils/arrays/is-empty';
+import { Button } from '../../../button';
+import { isEmpty } from '@/utils/arrays/is-empty';
 import { SECTION_ITEM_VARIANTS } from '../../side-menu.types';
 import { SideMenuSectionLinkItem } from '../side-menu-section-link-item';
 import { SideMenuSectionButtonItem } from '../side-menu-section-button-item';

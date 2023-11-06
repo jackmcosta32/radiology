@@ -1,5 +1,5 @@
 import { Dispatch, useState } from 'react';
-import { isServerSide } from '../../utils/server-side/is-server-side';
+import { isServerSide } from '@/utils/server-side/is-server-side';
 
 export function useLocalStorage<Value>(key: string, initialValue?: Value) {
   const [storedValue, setStoredValue] = useState(() => {

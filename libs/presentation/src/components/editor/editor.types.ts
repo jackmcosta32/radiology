@@ -6,6 +6,7 @@ export type {
   Range as TRange,
   Editor as TBaseEditor,
   EditorOptions as TBaseEditorOptions,
+  ChainedCommands as TChainedCommands,
 } from '@tiptap/core';
 
 export type {
@@ -13,15 +14,22 @@ export type {
   EditorProps as BaseEditorProps,
 } from '@tiptap/pm/view';
 
+export interface TEditorCommandParams {
+  range?: TRange;
+  inline?: boolean;
+  focused?: boolean;
+  editor: TBaseEditor;
+}
+
 export interface TEditorCommand {
   key: string;
   label: string;
   description?: string;
   previewImage?: string;
   icon?: React.ReactNode;
-  execute: (params: { editor: TBaseEditor; range?: TRange }) => void;
-  isActive: (params: { editor: TBaseEditor; range?: TRange }) => boolean;
-  executeInline: (params: { editor: TBaseEditor; range?: TRange }) => void;
+  searchTerms?: string[];
+  execute: (params: TEditorCommandParams) => void;
+  isActive: (params: { editor: TBaseEditor }) => boolean;
 }
 
 export interface EditorProps {

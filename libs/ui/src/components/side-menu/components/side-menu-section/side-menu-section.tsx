@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { isEmpty } from '../../../../utils/arrays/is-empty';
+import { isEmpty } from '@/utils/arrays/is-empty';
 import { SECTION_ITEM_VARIANTS } from '../../side-menu.types';
 import type { SideMenuSectionProps } from './side-menu-section.types';
 import { SideMenuSectionLinkItem } from '../side-menu-section-link-item';

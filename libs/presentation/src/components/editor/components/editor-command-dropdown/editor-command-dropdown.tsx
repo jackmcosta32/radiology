@@ -14,6 +14,7 @@ import {
 export function EditorCommandDropdown({
   editor,
   onOpen,
+  autoFocus,
   commands = [],
 }: EditorCommandDropdownProps) {
   const [open, setOpen] = React.useState(false);
@@ -38,6 +39,7 @@ export function EditorCommandDropdown({
         <Button
           variant="ghost"
           data-active={open}
+          autoFocus={autoFocus}
           className="data-[active=true]:bg-accent data-[active=true]:text-accent-foreground whitespace-nowrap gap-2 p-2"
         >
           {(activeCommand ?? defaultCommand).label}

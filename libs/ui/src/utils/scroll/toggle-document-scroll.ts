@@ -1,4 +1,4 @@
-import { isServerSide } from '../server-side';
+import { isServerSide } from '@/utils/server-side';
 
 export function toggleDocumentScroll(enabled: boolean) {
   if (isServerSide()) return;

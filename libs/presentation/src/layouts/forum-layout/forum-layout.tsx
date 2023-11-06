@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import { Link } from '@/ui/components/link';
 import { Header } from '@/ui/components/header';
 import { Button } from '@/ui/components/button';
-import { isEmpty } from '@/ui/utils/arrays/is-empty';
+import { isEmpty } from '@/utils/arrays/is-empty';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { SideMenuSection } from '@/ui/components/side-menu';
 import type { ForumLayoutProps } from './forum-layout.types';

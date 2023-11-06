@@ -31,7 +31,7 @@ const NODE_SELECTOR_COMMANDS: TEditorCommand[] = [
 
 const renderMenuCommands = (editor: TBaseEditor) => {
   return MENU_COMMANDS.map((command) => {
-    const { key, icon, executeInline, isActive } = command;
+    const { key, icon, execute, isActive } = command;
     const active = isActive({ editor });
 
     return (
@@ -39,8 +39,8 @@ const renderMenuCommands = (editor: TBaseEditor) => {
         key={key}
         variant="ghost"
         data-active={active}
-        onClick={() => executeInline({ editor })}
         className="p-2 data-[active=true]:text-primary"
+        onClick={() => execute({ editor, focused: true })}
       >
         {icon}
       </Button>
